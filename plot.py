@@ -22,3 +22,28 @@ plt.legend()
 plt.savefig('histpoi.png', dpi=400)
 plt.close()
 
+data_likelihood = np.loadtxt('likelihoods.txt')
+mu = data_likelihood[:, 0]
+likelihood = data_likelihood[:, 1]
+plt.plot(mu, likelihood)
+plt.xlabel(r'($\mu$)')
+plt.ylabel(r'$\mathcal{L}$ ($\mu$)')
+plt.savefig('likelihoods.png', dpi=400)
+plt.close()
+
+data_loglikelihood = np.loadtxt('nll.txt')
+mu_log = data_loglikelihood[:, 0]
+log_likelihood = data_loglikelihood[:, 1]
+plt.plot(mu_log, log_likelihood)
+plt.xlabel(r'($\mu$)')
+plt.ylabel(r'- 2 * log $\mathcal{L}$ ($\mu$)')
+plt.savefig('loglikelihoods.png', dpi=400)
+plt.close()
+
+data_deltaNLL = np.loadtxt('delta_nll.txt')
+mu_delta = data_deltaNLL[:, 0]
+delta_nll = data_deltaNLL[:, 1]
+plt.plot(mu_delta, delta_nll)
+plt.xlabel(r'($\mu$)')
+plt.ylabel(r'- 2 * log $\mathcal{L}$ ($\mu$')
+plt.savefig('delta_nll.png', dpi=400)
