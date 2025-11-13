@@ -51,7 +51,7 @@ int main() {
             delta_log_likelihoods.push_back(log_likelihood - (-2 * std::log(best_likelihood)));
         }
         fin.close();
-        std::ofstream fout("likelihoods.txt");
+        std::ofstream fout("likelihood.txt");
         for(size_t i = 0 ; i < likelihoods.size() ; ++i) {
             fout << (i * 0.1) << " " << likelihoods[i] << std::endl;
         }
@@ -112,7 +112,17 @@ int main() {
             saturated_likelihood *= poisson(n_i, n_i);
         }
         double likelihood_ratio = best_likelihood / saturated_likelihood;
+        std::cout << "best_likelihood: " << best_likelihood << std::endl;
+        std::cout << "saturated_likelihood: " << saturated_likelihood << std::endl;
         std::cout << "- 2 * ln Likelihood ratio: " << -2*std::log(likelihood_ratio) << std::endl;
+
+        int ndof = 234 - 1;
+        std::cout << "Degrees of freedom: " << ndof << std::endl;
+        double chi2_mean = ndof;
+        double chi2_stddev = std::sqrt(2 * ndof);
+        double z = (-2*std::log(likelihood_ratio) - chi2_mean) / chi2_stddev;
+        std::cout << "Z-value: " << z << std::endl;
+
 
     }
 
