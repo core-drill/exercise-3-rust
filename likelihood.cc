@@ -29,11 +29,12 @@ int main() {
         std::vector<double> delta_log_likelihoods;
         double mu_best = 3.11538;
         double best_likelihood = 1.0;
-        
+        double saturated_likelihood = 1.0;
         
         for(int i = 0 ; i < 234 ; ++i) {
             fin >> n_i;
             best_likelihood *= poisson(mu_best, n_i);
+            saturated_likelihood *= poisson(n_i, n_i);
         }
 
         for(double mu = 0.0 ; mu <= 6.0 ; mu += 0.1) {
@@ -104,16 +105,17 @@ int main() {
         // std::cout << "Uncertainty from standard deviation +-" << stddev << std::endl;
 
                 
-        double saturated_likelihood = 1.0;
-        fin.clear();
-        fin.seekg(0, std::ios::beg);
-        for(int i = 0 ; i < 234 ; ++i) {
-            fin >> n_i;
-            saturated_likelihood *= poisson(n_i, n_i);
-        }
+        // double saturated_likelihood = 1.0;
+        // fin.clear();
+        // fin.seekg(0, std::ios::beg);
+        // for(int i = 0 ; i < 234 ; ++i) {
+        //     fin >> n_i;
+        //     saturated_likelihood *= poisson(n_i, n_i);
+        // }
         double likelihood_ratio = best_likelihood / saturated_likelihood;
         std::cout << "best_likelihood: " << best_likelihood << std::endl;
         std::cout << "saturated_likelihood: " << saturated_likelihood << std::endl;
+        std::cout << "- 2 * ln Likelihood ratio: " << -2*(std::log(best_likelihood) - std::log(saturated_likelihood)) << std::endl;
         std::cout << "- 2 * ln Likelihood ratio: " << -2*std::log(likelihood_ratio) << std::endl;
 
         int ndof = 234 - 1;
